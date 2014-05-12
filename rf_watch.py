@@ -5,6 +5,14 @@
 #
 #/////////////////////////////////////////////
 
+import RPi.GPIO as GPIO
+
+txPin = 18
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(txPin,GPIO.OUT)
+
 directory = "/home/pi/wac2/"
 
 def commandCheck():
@@ -12,7 +20,6 @@ def commandCheck():
 	command = f.read().strip("\n")
 	f.close
 	if not command == "":
-		print "RECEIVED COMMAND: " + str(command)
 		f = open(directory + "command","w")
 		f.write("")
 		f.close()
@@ -316,3 +323,133 @@ print "CH2 OFF: " + str(chF2off_data)
 print "CH3 OFF: " + str(chF3off_data)
 print " "
 
+def stateSwitch(set,channel,power):
+	if set == "A":
+		if channel == "1":
+			if power == "1":
+				rfTX(chA1on_data)
+			else:
+				rfTX(chA1off_data)
+		if channel == "2":
+                        if power == "1":
+                                rfTX(chA2on_data)
+                        else:
+                                rfTX(chA2off_data)
+		if channel == "3":
+                        if power == "1":
+                                rfTX(chA3on_data)
+                        else:
+                                rfTX(chA3off_data)
+	if set == "B":
+                if channel == "1":
+                        if power == "1":
+                                rfTX(chB1on_data)
+                        else:
+                                rfTX(chB1off_data)
+                if channel == "2":
+                        if power == "1":
+                                rfTX(chB2on_data)
+                        else:
+                                rfTX(chB2off_data)
+                if channel == "3":
+                        if power == "1":
+                                rfTX(chB3on_data)
+                        else:
+                                rfTX(chB3off_data)
+	if set == "C":
+                if channel == "1":
+                        if power == "1":
+                                rfTX(chC1on_data)
+                        else:
+                                rfTX(chC1off_data)
+                if channel == "2":
+                        if power == "1":
+                                rfTX(chC2on_data)
+                        else:
+                                rfTX(chC2off_data)
+                if channel == "3":
+                        if power == "1":
+                                rfTX(chC3on_data)
+                        else:
+                                rfTX(chC3off_data)
+	if set == "D":
+                if channel == "1":
+                        if power == "1":
+                                rfTX(chD1on_data)
+                        else:
+                                rfTX(chD1off_data)
+                if channel == "2":
+                        if power == "1":
+                                rfTX(chD2on_data)
+                        else:
+                                rfTX(chD2off_data)
+                if channel == "3":
+                        if power == "1":
+                                rfTX(chD3on_data)
+                        else:
+                                rfTX(chD3off_data)
+	if set == "E":
+                if channel == "1":
+                        if power == "1":
+                                rfTX(chE1on_data)
+                        else:
+                                rfTX(chE1off_data)
+                if channel == "2":
+                        if power == "1":
+                                rfTX(chE2on_data)
+                        else:
+                                rfTX(chE2off_data)
+                if channel == "3":
+                        if power == "1":
+                                rfTX(chE3on_data)
+                        else:
+                                rfTX(chE3off_data)
+	if set == "F":
+                if channel == "1":
+                        if power == "1":
+                                rfTX(chF1on_data)
+                        else:
+                                rfTX(chF1off_data)
+                if channel == "2":
+                        if power == "1":
+                                rfTX(chF2on_data)
+                        else:
+                                rfTX(chF2off_data)
+                if channel == "3":
+                        if power == "1":
+                                rfTX(chF3on_data)
+                        else:
+                                rfTX(chF3off_data)
+
+
+def rfTX(inputString):
+	print len(inputString)
+	print inputString
+
+print "WAITING FOR FIRST COMMAND..."
+
+while True:
+	com = commandCheck()
+	if not com == "NULL":
+		
+		print com
+		type = com[0]
+
+		if type == "R":
+			set = com[2]
+			channel = com[3]
+			power = com[5]
+	
+			if power == "1":
+				power = "on"
+			else:
+				power = "off"
+	
+			print "Switching CH" + str(channel) + " in set " + str(set) + " " + str(power)
+			stateSwitch(set,channel,power)
+
+		elif type == "M":
+			message = com[2:]
+			print "MESSAGE: " + message
+		else:
+			print "ERROR || Cannot parse command!"
