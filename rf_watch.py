@@ -1,6 +1,6 @@
 #/////////////////////////////////////////////
 #
-#   Wireless AC Control Software 1.4 (beta)
+#   Wireless AC Control Software 1.4 (alpha)
 #   by Connor Nishijima and Andrew Neal
 #
 #/////////////////////////////////////////////
