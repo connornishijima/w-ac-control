@@ -12,10 +12,13 @@ def commandCheck():
 	command = f.read().strip("\n")
 	f.close
 	if not command == "":
-		return command
 		print "RECEIVED COMMAND: " + str(command)
+		f = open(directory + "command","w")
+		f.write("")
+		f.close()
+		return command
 	else:
-		return null
+		return "NULL"
 
 while True:
 	commandCheck()
