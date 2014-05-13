@@ -16,7 +16,9 @@ GPIO.setup(txPin,GPIO.OUT)
 
 directory = "/home/pi/wac2/"
 
-freqJam = True
+f = open(directory + "conf/freqJam.conf")
+freqJam = int(f.read().strip("\n"))
+f.close()
 
 def commandCheck():
 	f = open(directory + "command","r")
@@ -351,8 +353,8 @@ def stateSwitch(set,channel,power):
 
 
 def rfTX(inputString):
-	shortDelay = 0.000581
-        longDelay  = 0.001585
+	shortDelay = 0.000580
+        longDelay  = 0.001590
 
 	if inputString == "X":
 		GPIO.output(txPin,1)
@@ -361,11 +363,11 @@ def rfTX(inputString):
                 time.sleep(0.01)
 	else:
 		inputString2 = inputString
-		repeat = 4
+		repeat = 5
 		while repeat > 0:
 			count = len(inputString)
 			GPIO.output(txPin,0)
-			time.sleep(0.00999)
+			time.sleep(0.01)
 			while count > 0:
 				bit = inputString[0]
 				if bit == "1":
@@ -408,7 +410,7 @@ while True:
 			message = com[2:]
 			if message == "2":
 				print "JAMMING disabled."
-				freqJam = 0
+				freqJam = 2
 			if message == "1":
 				print "JAMMING enabled."
 				freqJam = 1
